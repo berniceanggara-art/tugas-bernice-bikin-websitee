@@ -4,367 +4,780 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Website Pribadi Bernice</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
+    :root{
+      --primary:#2563eb;
+      --primary-dark:#1d4ed8;
+      --secondary:#7c3aed;
+      --accent:#ffd166;
+      --accent-2:#ff9f1c;
+      --bg:#f4f7fb;
+      --bg-soft:#eef4ff;
+      --text:#1e293b;
+      --muted:#64748b;
+      --white:#ffffff;
+      --border:#e2e8f0;
+      --success-bg:#dcfce7;
+      --success-text:#166534;
+      --error-bg:#fee2e2;
+      --error-text:#991b1b;
+      --shadow:0 10px 30px rgba(15, 23, 42, 0.12);
+      --shadow-lg:0 20px 45px rgba(15, 23, 42, 0.18);
+      --radius:18px;
     }
 
-    body {
-      background: #f4f7fb;
-      color: #222;
-      line-height: 1.6;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Poppins", Arial, Helvetica, sans-serif;
     }
 
-    header {
-      background: linear-gradient(135deg, #0f172a, #1d4ed8);
-      color: white;
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    html{
+      scroll-behavior:smooth;
     }
 
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: auto;
+    body{
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(124,58,237,0.10), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+      color:var(--text);
+      line-height:1.7;
+      overflow-x:hidden;
     }
 
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
+    img{
+      max-width:100%;
+      display:block;
     }
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 1px;
+    .container{
+      width:90%;
+      max-width:1150px;
+      margin:auto;
     }
 
-    .nav ul {
-      list-style: none;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+    /* TOAST */
+    #toast{
+      position:fixed;
+      top:24px;
+      right:24px;
+      min-width:260px;
+      max-width:350px;
+      padding:14px 18px;
+      border-radius:14px;
+      color:#fff;
+      font-weight:600;
+      box-shadow:0 16px 40px rgba(0,0,0,0.18);
+      z-index:9999;
+      transform:translateX(120%);
+      opacity:0;
+      transition:.4s ease;
     }
 
-    .nav ul li a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      transition: 0.3s;
+    #toast.show{
+      transform:translateX(0);
+      opacity:1;
     }
 
-    .nav ul li a:hover {
-      color: #ffd166;
+    #toast.success{
+      background:linear-gradient(135deg, #16a34a, #22c55e);
     }
 
-    .hero {
-      min-height: 88vh;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(29,78,216,0.8)),
+    #toast.error{
+      background:linear-gradient(135deg, #dc2626, #ef4444);
+    }
+
+    #toast.info{
+      background:linear-gradient(135deg, #2563eb, #3b82f6);
+    }
+
+    /* HEADER */
+    header{
+      position:sticky;
+      top:0;
+      z-index:999;
+      background:rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:14px;
+      padding:16px 0;
+    }
+
+    .logo{
+      font-size:26px;
+      font-weight:800;
+      color:#fff;
+      letter-spacing:.5px;
+      position:relative;
+    }
+
+    .logo::after{
+      content:"";
+      width:45%;
+      height:4px;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), #fff);
+      position:absolute;
+      left:0;
+      bottom:-6px;
+    }
+
+    .nav ul{
+      list-style:none;
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .nav ul li a{
+      position:relative;
+      text-decoration:none;
+      color:#fff;
+      font-weight:600;
+      transition:.3s ease;
+      padding:8px 4px;
+    }
+
+    .nav ul li a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:0%;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), #fff);
+      transition:.3s ease;
+    }
+
+    .nav ul li a:hover,
+    .nav ul li a.active{
+      color:var(--accent);
+    }
+
+    .nav ul li a:hover::after,
+    .nav ul li a.active::after{
+      width:100%;
+    }
+
+    /* HERO */
+    .hero{
+      min-height:92vh;
+      display:flex;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(to right, rgba(15,23,42,0.88), rgba(37,99,235,0.75)),
         url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
-      color: white;
-      padding: 50px 0;
+      color:#fff;
+      padding:60px 0;
     }
 
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 30px;
-      align-items: center;
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:420px;
+      height:420px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.08);
+      top:-120px;
+      right:-120px;
+      filter:blur(10px);
     }
 
-    .hero-text h1 {
-      font-size: 44px;
-      margin-bottom: 15px;
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:rgba(255,209,102,0.16);
+      bottom:-80px;
+      left:-60px;
+      filter:blur(8px);
     }
 
-    .hero-text p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      max-width: 650px;
+    .hero-content{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:36px;
+      align-items:center;
+      position:relative;
+      z-index:2;
     }
 
-    .btn-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .hero-text h1{
+      font-size:50px;
+      line-height:1.15;
+      margin-bottom:18px;
+      text-shadow:0 6px 20px rgba(0,0,0,0.18);
     }
 
-    .btn {
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-      text-decoration: none;
-      display: inline-block;
+    .hero-text p{
+      font-size:18px;
+      color:rgba(255,255,255,0.92);
+      margin-bottom:28px;
+      max-width:650px;
     }
 
-    .btn-primary {
-      background: #ffd166;
-      color: #111;
+    .btn-group{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
     }
 
-    .btn-primary:hover {
-      background: #ffbf3c;
-      transform: translateY(-2px);
+    .btn{
+      border:none;
+      padding:13px 22px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      transition:.3s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 20px rgba(0,0,0,0.12);
     }
 
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
+    .btn-primary{
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:#111827;
     }
 
-    .btn-secondary:hover {
-      background: white;
-      color: #111;
+    .btn-primary:hover{
+      transform:translateY(-3px) scale(1.02);
+      box-shadow:0 18px 30px rgba(255, 159, 28, 0.35);
     }
 
-    .hero-image {
-      text-align: center;
+    .btn-secondary{
+      background:rgba(255,255,255,0.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.35);
+      backdrop-filter:blur(8px);
     }
 
-    .hero-image img {
-      width: 280px;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 6px solid rgba(255,255,255,0.85);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    .btn-secondary:hover{
+      background:#fff;
+      color:#111827;
+      transform:translateY(-3px);
     }
 
-    section {
-      padding: 70px 0;
+    .hero-image{
+      display:flex;
+      justify-content:center;
+      align-items:center;
     }
 
-    .section-title {
-      text-align: center;
-      font-size: 32px;
-      margin-bottom: 15px;
-      color: #0f172a;
+    .hero-image img{
+      width:310px;
+      height:310px;
+      object-fit:cover;
+      border-radius:50%;
+      border:7px solid rgba(255,255,255,0.85);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.28),
+        0 0 0 14px rgba(255,255,255,0.08);
+      transition:.4s ease;
     }
 
-    .section-subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 35px;
+    .hero-image img:hover{
+      transform:scale(1.04) rotate(1deg);
     }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      padding: 25px;
+    /* SECTION */
+    section{
+      padding:85px 0;
+      position:relative;
     }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      align-items: center;
+    .section-title{
+      text-align:center;
+      font-size:36px;
+      margin-bottom:12px;
+      color:#0f172a;
+      font-weight:800;
     }
 
-    .about-img img {
-      width: 100%;
-      border-radius: 16px;
-      object-fit: cover;
-      max-height: 350px;
+    .section-subtitle{
+      text-align:center;
+      color:var(--muted);
+      max-width:850px;
+      margin:0 auto 40px;
+      font-size:16px;
     }
 
-    .skills {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
+    /* ANIMATION */
+    .reveal{
+      opacity:0;
+      transform:translateY(40px);
+      transition:all .8s ease;
     }
 
-    .skill-box {
-      background: #eff6ff;
-      padding: 16px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: bold;
-      color: #1e3a8a;
-      border: 1px solid #dbeafe;
+    .reveal.show{
+      opacity:1;
+      transform:translateY(0);
     }
 
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+    /* CARD */
+    .card{
+      background:rgba(255,255,255,0.85);
+      border:1px solid rgba(255,255,255,0.65);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:26px;
+      transition:.35s ease;
     }
 
-    .portfolio-item img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 12px;
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:var(--shadow-lg);
     }
 
-    .portfolio-item h3 {
-      margin-bottom: 8px;
-      color: #0f172a;
+    /* ABOUT */
+    .about-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:center;
     }
 
-    .video-map-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    .about-img{
+      position:relative;
     }
 
-    .iframe-box iframe {
-      width: 100%;
-      height: 320px;
-      border: none;
-      border-radius: 14px;
+    .about-img::before{
+      content:"";
+      position:absolute;
+      inset:auto -12px -12px auto;
+      width:120px;
+      height:120px;
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius:24px;
+      z-index:0;
+      opacity:.18;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    .about-img img{
+      position:relative;
+      z-index:1;
+      width:100%;
+      border-radius:22px;
+      object-fit:cover;
+      max-height:380px;
+      box-shadow:var(--shadow-lg);
     }
 
-    .form-box h3 {
-      margin-bottom: 18px;
-      color: #0f172a;
+    .card h3{
+      color:#0f172a;
+      font-size:24px;
+      margin-bottom:12px;
     }
 
-    .form-group {
-      margin-bottom: 14px;
+    .card p{
+      color:#475569;
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
+    .skills{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+      gap:14px;
+      margin-top:22px;
     }
 
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      outline: none;
-      transition: 0.3s;
+    .skill-box{
+      background:linear-gradient(135deg, #eff6ff, #dbeafe);
+      padding:16px;
+      border-radius:14px;
+      text-align:center;
+      font-weight:700;
+      color:#1e3a8a;
+      border:1px solid #c7d2fe;
+      transition:.3s ease;
+      box-shadow:0 8px 18px rgba(37,99,235,0.08);
     }
 
-    .form-group input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    .skill-box:hover{
+      transform:translateY(-4px) scale(1.02);
+      background:linear-gradient(135deg, #dbeafe, #bfdbfe);
     }
 
-    .result-box {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 10px;
-      display: none;
-      font-weight: bold;
+    /* PORTFOLIO */
+    #portfolio{
+      background:linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
     }
 
-    .success {
-      background: #dcfce7;
-      color: #166534;
-      display: block;
+    .portfolio-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+      gap:22px;
     }
 
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-      display: block;
+    .portfolio-item{
+      overflow:hidden;
+      position:relative;
     }
 
-    .contact-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 25px;
+    .portfolio-item img{
+      width:100%;
+      height:190px;
+      object-fit:cover;
+      border-radius:14px;
+      margin-bottom:14px;
+      transition:.45s ease;
     }
 
-    .contact-item {
-      background: #ffffff;
-      padding: 18px;
-      border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      text-align: center;
+    .portfolio-item:hover img{
+      transform:scale(1.06);
     }
 
-    footer {
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 30px;
+    .portfolio-item h3{
+      margin-bottom:8px;
+      color:#0f172a;
+      font-size:22px;
     }
 
-    html {
-      scroll-behavior: smooth;
+    .portfolio-item p{
+      color:#475569;
     }
 
-    @media (max-width: 900px) {
+    /* MEDIA */
+    .video-map-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .iframe-box h3{
+      margin-bottom:16px;
+      color:#0f172a;
+      font-size:22px;
+    }
+
+    .iframe-box iframe{
+      width:100%;
+      height:320px;
+      border:none;
+      border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    /* AUTH */
+    #auth{
+      background:linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .form-box{
+      position:relative;
+      overflow:hidden;
+    }
+
+    .form-box::before{
+      content:"";
+      position:absolute;
+      top:-60px;
+      right:-60px;
+      width:150px;
+      height:150px;
+      border-radius:50%;
+      background:linear-gradient(135deg, rgba(37,99,235,0.18), rgba(124,58,237,0.18));
+    }
+
+    .form-box h3{
+      margin-bottom:18px;
+      color:#0f172a;
+      font-size:24px;
+      position:relative;
+      z-index:1;
+    }
+
+    .form-group{
+      margin-bottom:16px;
+      position:relative;
+      z-index:1;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:7px;
+      font-weight:700;
+      color:#334155;
+    }
+
+    .form-group input{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid #cbd5e1;
+      border-radius:12px;
+      outline:none;
+      background:#fff;
+      transition:.3s ease;
+      font-size:15px;
+    }
+
+    .form-group input:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 4px rgba(37,99,235,0.14);
+      transform:translateY(-1px);
+    }
+
+    .result-box{
+      margin-top:16px;
+      padding:13px 14px;
+      border-radius:12px;
+      display:none;
+      font-weight:700;
+      border:1px solid transparent;
+      position:relative;
+      z-index:1;
+    }
+
+    .success{
+      background:var(--success-bg);
+      color:var(--success-text);
+      display:block;
+      border-color:#bbf7d0;
+    }
+
+    .error{
+      background:var(--error-bg);
+      color:var(--error-text);
+      display:block;
+      border-color:#fecaca;
+    }
+
+    /* CONTACT */
+    .contact-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:18px;
+      margin-top:28px;
+    }
+
+    .contact-item{
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,250,252,0.96));
+      padding:22px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      text-align:center;
+      border:1px solid rgba(226,232,240,0.9);
+      transition:.35s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .contact-item::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:5px;
+      background:linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .contact-item:hover{
+      transform:translateY(-6px);
+      box-shadow:var(--shadow-lg);
+    }
+
+    .contact-item h3{
+      margin-bottom:10px;
+      color:#0f172a;
+      font-size:20px;
+    }
+
+    .contact-item p{
+      color:#475569;
+      word-break:break-word;
+    }
+
+    /* FOOTER */
+    footer{
+      background:linear-gradient(135deg, #0f172a, #111827);
+      color:#fff;
+      text-align:center;
+      padding:26px 20px;
+      margin-top:30px;
+      border-top:1px solid rgba(255,255,255,0.08);
+    }
+
+    footer p{
+      opacity:.92;
+      letter-spacing:.3px;
+    }
+
+    /* SMALL DECORATION */
+    #about::before,
+    #contact::before{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:rgba(37,99,235,0.05);
+      filter:blur(10px);
+      z-index:0;
+    }
+
+    #about::before{
+      top:20px;
+      left:-60px;
+    }
+
+    #contact::before{
+      bottom:20px;
+      right:-60px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
       .hero-content,
       .about-grid,
       .video-map-grid,
-      .form-grid {
-        grid-template-columns: 1fr;
+      .form-grid{
+        grid-template-columns:1fr;
       }
 
-      .hero-text h1 {
-        font-size: 34px;
+      .hero{
+        text-align:center;
       }
 
-      .hero {
-        text-align: center;
+      .hero-text p{
+        margin-left:auto;
+        margin-right:auto;
       }
 
-      .btn-group {
-        justify-content: center;
+      .btn-group{
+        justify-content:center;
+      }
+
+      .hero-text h1{
+        font-size:40px;
+      }
+
+      .hero-image{
+        margin-top:8px;
       }
     }
 
-    @media (max-width: 600px) {
-      .nav {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (max-width: 768px){
+      section{
+        padding:70px 0;
       }
 
-      .nav ul {
-        flex-direction: column;
-        gap: 10px;
+      .section-title{
+        font-size:30px;
       }
 
-      .hero-image img {
-        width: 220px;
-        height: 220px;
+      .hero-text h1{
+        font-size:34px;
       }
 
-      .hero-text h1 {
-        font-size: 28px;
+      .hero-image img{
+        width:250px;
+        height:250px;
+      }
+
+      .iframe-box iframe{
+        height:260px;
+      }
+    }
+
+    @media (max-width: 600px){
+      .nav{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .nav ul{
+        flex-direction:column;
+        gap:10px;
+        width:100%;
+      }
+
+      .nav ul li a{
+        display:block;
+        width:100%;
+      }
+
+      .hero{
+        min-height:auto;
+        padding:70px 0;
+      }
+
+      .hero-text h1{
+        font-size:28px;
+      }
+
+      .hero-text p{
+        font-size:15px;
+      }
+
+      .hero-image img{
+        width:220px;
+        height:220px;
+      }
+
+      .section-title{
+        font-size:26px;
+      }
+
+      .card{
+        padding:20px;
+      }
+
+      .iframe-box iframe{
+        height:220px;
+      }
+
+      #toast{
+        left:16px;
+        right:16px;
+        top:16px;
+        min-width:auto;
+        max-width:none;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- TOAST -->
+  <div id="toast"></div>
+
   <!-- HEADER -->
   <header>
     <div class="container nav">
       <div class="logo">Bernice Profile</div>
       <ul>
-        <li><a href="#home">Beranda</a></li>
+        <li><a href="#home" class="active">Beranda</a></li>
         <li><a href="#about">Tentang</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#media">Media</a></li>
@@ -376,12 +789,13 @@
 
   <!-- HERO -->
   <section class="hero" id="home">
-    <div class="container hero-content">
+    <div class="container hero-content reveal">
       <div class="hero-text">
         <h1>Halo, aku <span style="color:#ffd166;">Bernice</span> 👋</h1>
         <p>
-          Selamat datang di website pribadi saya. Website ini berisi profil singkat, portfolio,
-          video favorit, lokasi, serta fitur login dan register menggunakan JavaScript object.
+          Selamat datang di website pribadi Bernice ✨  
+          Di sini kamu bisa melihat profil singkat, portfolio, video favorit, lokasi sekolah,
+          serta fitur login dan register yang dibuat dengan HTML, CSS, dan JavaScript.
         </p>
         <div class="btn-group">
           <button class="btn btn-primary" onclick="showWelcome()">Klik Sapaan</button>
@@ -390,7 +804,7 @@
       </div>
 
       <div class="hero-image">
-        <img src="https://i.pinimg.com/736x/4f/75/75/4f75751faebebb0de3056d77ef81e11f.jpg">
+        <img src="https://i.pinimg.com/736x/4f/75/75/4f75751faebebb0de3056d77ef81e11f.jpg" alt="Foto Bernice">
       </div>
     </div>
   </section>
@@ -398,20 +812,23 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="container">
-      <h2 class="section-title">Tentang Bernice</h2>
-      <p class="section-subtitle">Halo, Saya siswi kelas X E SMAN 8 Yogyakarta, Usiaku 16 tahun, rumahku di deket Bendhung Lepen. Aku suka makan tomat, Suka minum es teh, kalian harus coba minum es teh rasanya segerr banget MANTAB</p>
+      <h2 class="section-title reveal">Tentang Bernice</h2>
+      <p class="section-subtitle reveal">
+        Halo, Saya siswi kelas X E SMAN 8 Yogyakarta, usiaku 16 tahun, rumahku dekat Bendhung Lepen.
+        Aku suka makan tomat dan minum es teh, kalian wajib coba es teh karena segerr banget MANTAB 😆
+      </p>
 
       <div class="about-grid">
-        <div class="about-img">
-          <img src="https://i.pinimg.com/736x/4f/75/75/4f75751faebebb0de3056d77ef81e11f.jpg">
+        <div class="about-img reveal">
+          <img src="https://i.pinimg.com/736x/4f/75/75/4f75751faebebb0de3056d77ef81e11f.jpg" alt="Bernice">
         </div>
 
-        <div class="card">
-          <h3 style="margin-bottom: 12px;">Siswi & Tech Enthusiast</h3>
+        <div class="card reveal">
+          <h3>Siswi & Tech Enthusiast</h3>
           <p>
             Saya adalah seorang siswi kelas X E5 yang tertarik pada dunia teknologi, 
-  pemrograman, desain web, dan pengembangan aplikasi. Saya suka belajar hal baru, 
-  mencoba membuat project sederhana, serta mengembangkan kemampuan di bidang IT.
+            pemrograman, desain web, dan pengembangan aplikasi. Saya suka belajar hal baru, 
+            mencoba membuat project sederhana, serta mengembangkan kemampuan di bidang IT.
           </p>
           <br>
           <p>
@@ -431,26 +848,26 @@
   </section>
 
   <!-- PORTFOLIO -->
-  <section id="portfolio" style="background:#eef4ff;">
+  <section id="portfolio">
     <div class="container">
-      <h2 class="section-title">Portfolio</h2>
-      <p class="section-subtitle">Beberapa contoh project dan kegiatan saya</p>
+      <h2 class="section-title reveal">Portfolio</h2>
+      <p class="section-subtitle reveal">Beberapa contoh project dan kegiatan saya</p>
 
       <div class="portfolio-grid">
-        <div class="card portfolio-item">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt="Project 1">
+        <div class="card portfolio-item reveal">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt="Project Website">
           <h3>Project Website</h3>
           <p>Membuat tampilan website sederhana dengan HTML, CSS, dan JavaScript.</p>
         </div>
 
-        <div class="card portfolio-item">
-          <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop" alt="Project 2">
+        <div class="card portfolio-item reveal">
+          <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop" alt="Project Pemrograman">
           <h3>Project Pemrograman</h3>
           <p>Mengerjakan tugas coding, logika program, dan pembuatan aplikasi sederhana.</p>
         </div>
 
-        <div class="card portfolio-item">
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="Project 3">
+        <div class="card portfolio-item reveal">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="Kerja Tim">
           <h3>Kerja Tim</h3>
           <p>Belajar kolaborasi, diskusi, dan menyelesaikan project bersama teman.</p>
         </div>
@@ -461,26 +878,26 @@
   <!-- MEDIA -->
   <section id="media">
     <div class="container">
-      <h2 class="section-title">Video & Lokasi</h2>
-     <p class="section-subtitle">Contoh penambahan iframe YouTube dan Google Maps</p>
+      <h2 class="section-title reveal">Video & Lokasi</h2>
+      <p class="section-subtitle reveal">Contoh penambahan iframe YouTube dan Google Maps</p>
 
-    <div class="video-map-grid">
-      <div class="card iframe-box">
-        <h3 style="margin-bottom: 15px;">Video YouTube</h3>
-        <iframe
-          src="https://www.youtube.com/embed/MCVkMmYL-aY"
-          title="Membuat WEBSITE Kedai Kopi RESPONSIVE dengan HTML & CSS dari 0 + Autodeploy ke WEB HOSTING"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
+      <div class="video-map-grid">
+        <div class="card iframe-box reveal">
+          <h3>🎥 Video YouTube</h3>
+          <iframe
+            src="https://www.youtube.com/embed/MCVkMmYL-aY"
+            title="Membuat WEBSITE Kedai Kopi RESPONSIVE dengan HTML & CSS"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
         </div>
 
-        <div class="card iframe-box">
-          <h3 style="margin-bottom: 15px;">Lokasi Google Maps</h3>
+        <div class="card iframe-box reveal">
+          <h3>📍 Lokasi Google Maps</h3>
           <iframe
             src="https://www.google.com/maps?q=SMA+Negeri+8+Yogyakarta&output=embed"
-            allowfullscreen=""
+            allowfullscreen
             loading="lazy">
           </iframe>
         </div>
@@ -489,14 +906,14 @@
   </section>
 
   <!-- AUTH -->
-  <section id="auth" style="background:#eef4ff;">
+  <section id="auth">
     <div class="container">
-      <h2 class="section-title">Login & Register</h2>
-      <p class="section-subtitle">Menggunakan JavaScript Object</p>
+      <h2 class="section-title reveal">Login & Register</h2>
+      <p class="section-subtitle reveal">Menggunakan JavaScript Object</p>
 
       <div class="form-grid">
         <!-- REGISTER -->
-        <div class="card form-box">
+        <div class="card form-box reveal">
           <h3>Register</h3>
           <div class="form-group">
             <label for="regName">Nama</label>
@@ -516,7 +933,7 @@
         </div>
 
         <!-- LOGIN -->
-        <div class="card form-box">
+        <div class="card form-box reveal">
           <h3>Login</h3>
           <div class="form-group">
             <label for="loginUsername">Username</label>
@@ -537,24 +954,24 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="container">
-      <h2 class="section-title">Kontak</h2>
-      <p class="section-subtitle">Hubungi saya melalui beberapa platform berikut</p>
+      <h2 class="section-title reveal">Kontak</h2>
+      <p class="section-subtitle reveal">Hubungi saya melalui beberapa platform berikut</p>
 
       <div class="contact-list">
-        <div class="contact-item">
-          <h3>Email</h3>
+        <div class="contact-item reveal">
+          <h3>📧 Email</h3>
           <p>Bernice@gmail.com</p>
         </div>
-        <div class="contact-item">
-          <h3>Instagram</h3>
+        <div class="contact-item reveal">
+          <h3>📸 Instagram</h3>
           <p>@Bernice.id</p>
         </div>
-        <div class="contact-item">
-          <h3>WhatsApp</h3>
+        <div class="contact-item reveal">
+          <h3>📱 WhatsApp</h3>
           <p>085930405244</p>
         </div>
-        <div class="contact-item">
-          <h3>Alamat</h3>
+        <div class="contact-item reveal">
+          <h3>📍 Alamat</h3>
           <p>Jl. Sidobali No.1, Muja Muju, Kec. Umbulharjo, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55165</p>
         </div>
       </div>
@@ -562,19 +979,33 @@
   </section>
 
   <footer>
-    <p>&copy; 2026 Website Pribadi Mbo | Dibuat dengan HTML, CSS, dan JavaScript</p>
+    <p>&copy; 2026 Website Pribadi Bernice | Dibuat dengan HTML, CSS, dan JavaScript</p>
   </footer>
 
   <script>
     // =========================
-    // ALERT JAVASCRIPT
+    // TOAST NOTIFICATION
     // =========================
-    function showWelcome() {
-      alert("Halo! Selamat datang di website pribadi Mbo 😎");
+    function showToast(message, type = "info") {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.className = "";
+      toast.classList.add(type, "show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
     }
 
     // =========================
-    // OBJECT USER / DATABASE SEMENTARA
+    // SAPAAN
+    // =========================
+    function showWelcome() {
+      showToast("Halo! Selamat datang di website pribadi Bernice 😎", "info");
+    }
+
+    // =========================
+    // DATABASE SEMENTARA USER
     // =========================
     let users = [
       {
@@ -599,6 +1030,7 @@
       if (name === "" || username === "" || password === "") {
         result.textContent = "Semua field register wajib diisi!";
         result.classList.add("error");
+        showToast("Semua field register wajib diisi!", "error");
         return;
       }
 
@@ -607,6 +1039,7 @@
       if (userExists) {
         result.textContent = "Username sudah digunakan, pakai username lain ya.";
         result.classList.add("error");
+        showToast("Username sudah digunakan!", "error");
         return;
       }
 
@@ -620,8 +1053,7 @@
 
       result.textContent = "Register berhasil! Sekarang kamu bisa login.";
       result.classList.add("success");
-
-      alert("Register berhasil untuk user: " + username);
+      showToast("Register berhasil untuk user: " + username, "success");
 
       document.getElementById("regName").value = "";
       document.getElementById("regUsername").value = "";
@@ -642,6 +1074,7 @@
       if (username === "" || password === "") {
         result.textContent = "Username dan password harus diisi!";
         result.classList.add("error");
+        showToast("Username dan password harus diisi!", "error");
         return;
       }
 
@@ -650,15 +1083,62 @@
       if (foundUser) {
         result.textContent = "Login berhasil! Selamat datang, " + foundUser.name + ".";
         result.classList.add("success");
-        alert("Login berhasil. Halo, " + foundUser.name + "!");
+        showToast("Login berhasil. Halo, " + foundUser.name + "!", "success");
       } else {
         result.textContent = "Login gagal! Username atau password salah.";
         result.classList.add("error");
+        showToast("Login gagal! Username atau password salah.", "error");
       }
 
       document.getElementById("loginUsername").value = "";
       document.getElementById("loginPassword").value = "";
     }
+
+    // =========================
+    // SCROLL ACTIVE NAVBAR
+    // =========================
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav ul li a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+    // =========================
+    // REVEAL ON SCROLL
+    // =========================
+    const reveals = document.querySelectorAll(".reveal");
+
+    function revealOnScroll() {
+      reveals.forEach(item => {
+        const windowHeight = window.innerHeight;
+        const revealTop = item.getBoundingClientRect().top;
+        const revealPoint = 100;
+
+        if (revealTop < windowHeight - revealPoint) {
+          item.classList.add("show");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    window.addEventListener("load", revealOnScroll);
   </script>
 </body>
 </html>
